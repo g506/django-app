@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'easy_select2',
     'import_export',
     'ckeditor',
-    'travel_log_data'
+    'travel_log_data',
+    'user'
 ]
 
 MIDDLEWARE = [
