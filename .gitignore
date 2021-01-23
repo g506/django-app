@@ -1,0 +1,23 @@
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Distribution / packaging
+.Python
+env/
+build/
+include/
+bin/
+lib/
+
+travel_log_data/migrations/
+### Django ###
+*.pyc
+__pycache__/
+
+.env
+db.sqlite3
+
+.idea
+.vscode
+
