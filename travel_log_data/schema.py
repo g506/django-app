@@ -4,13 +4,14 @@ from django.db.models import F
 from framework.api.API_Exception import APIException
 from graphql_jwt.decorators import login_required
 
+
 class TransportObj(graphene.ObjectType):
     transport_id = graphene.String(required=True)
     transport_type = graphene.String(required=True)
 
 
     def resolve_transport_id(self, info):
-        return self['transport_id']
+        return self['id']
 
     def resolve_transport_type(self, info):
         return self['transport_type']
@@ -21,7 +22,7 @@ class ActivitiesObj(graphene.ObjectType):
 
 
     def resolve_activity_id(self, info):
-        return self['activity_id']
+        return self['id']
 
     def resolve_activity_type(self, info):
         return self['activity_type']
@@ -40,7 +41,7 @@ class LocationObj(graphene.ObjectType):
         return self['location_name']
     
     def resolve_location_id(self, info):
-        return self['location_id']
+        return self['id']
     
     def resolve_location_latitude(self, info):
         return self['location_latitude']
@@ -63,14 +64,31 @@ class LocationObj(graphene.ObjectType):
         #).filter(id=self['activity_id'])
 
 
+class ReviewsObj(graphene.ObjectType):
+    review_id = graphene.String(required=True)
+    content = graphene.String(required=True)
+
+    def resolve_review_id(self, info):
+        return self['id']
+    def resolve_content(self, info):
+        return self['content']
+
 class Query(graphene.ObjectType):
     locations = graphene.List(LocationObj)
     transports = graphene.List(TransportObj)
+    activities = graphene.List(ActivitiesObj)
+    reviews = graphene.List(ReviewsObj)
 
     def resolve_locations(self, info):
         return Location.objects.values().all()
-    
+
     def resolve_transports(self, info):
         return Transport.objects.values().all()
+
+    def resolve_activities(self, info):
+        return Activities.objects.values().all()
+
+    def resolve_reviews(self, info):
+        return Reviews.objects.values().all()
 
 schema = graphene.Schema(query=Query)

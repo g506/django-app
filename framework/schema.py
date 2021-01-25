@@ -6,6 +6,7 @@ import graphene
 from django.contrib.auth import get_user_model
 
 import travel_log_data.schema
+import user.schema
 
 import graphql_jwt
 from .api.API_Exception import APIException
@@ -45,6 +46,7 @@ class Mutation(graphene.ObjectType):
 
 class Query(
     travel_log_data.schema.Query,
+    user.schema.Query,
     graphene.ObjectType):
     users = graphene.List(UserType)
 

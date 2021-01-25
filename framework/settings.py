@@ -52,6 +52,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'user.User'
+
+
 ROOT_URLCONF = 'framework.urls'
 
 TEMPLATES = [
@@ -121,6 +124,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SOCIAL_AUTH_USER_MODEL = 'user.User'
+
 
 GRAPHENE = {
     'SCHEMA': 'framework.schema.schema',
