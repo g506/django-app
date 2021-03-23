@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from framework import settings
 import graphene
 from django.contrib.auth import get_user_model
-
 import travel_log_data.schema
 import user.schema
 
@@ -49,8 +48,18 @@ class Query(
     user.schema.Query,
     graphene.ObjectType):
     users = graphene.List(UserType)
+    user = graphene.Field(UserType, username=graphene.String(required=True))
 
     def resolve_users(self, info):
         return get_user_model().objects.all()
+        
+    @staticmethod
+    def resolve_user(self, info, **kwargs):
+        username = kwargs.get('username')
+        if username is not None:
+            return get_user_model().objects.get(username=username)
+        else:
+            raise Exception('Username is a required parameter')
+
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
