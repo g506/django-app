@@ -37,3 +37,4 @@ class Query(graphene.ObjectType):
     
     def resolve_ratings(self, info):
         return Ratings.objects.values().all()
+

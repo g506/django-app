@@ -4,11 +4,19 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import AbstractUser
 from framework.utils import SOCIAL_PROFILE_PLATFORMS
 
-
+from framework.validators import validate_file_size, processed_image_field_specs
+from imagekit.models import ProcessedImageField
+import datetime
+import uuid
 
 RATING_TYPE = (('one', '1'), ('two', '2'), ('three', '3'), ('four', '4'), ('five', '5'))
 
 class User(AbstractUser):
+    def get_avatar_path(self, filename):
+        ext = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4(), ext)
+        return 'static/uploads/images/avatar/' + filename
+
     GENDER_CHOICES = (
         (0, 'Male'),
         (1, 'Female'),
@@ -26,7 +34,16 @@ class User(AbstractUser):
     url = models.URLField(max_length=255, default='', blank=True, verbose_name='URL')
     location = models.CharField(max_length=255, default='', blank=True)
     country = models.CharField(max_length=10, null=False, blank=False, default='IND')
+    birthday = models.DateField(null=False, default = datetime.date.today)
     isServiceProvider = models.BooleanField(default=True)
+    avatar = ProcessedImageField(
+        blank=True,
+        verbose_name='Avatar',
+        upload_to=get_avatar_path,
+        null=True,
+        validators=[validate_file_size],
+        **processed_image_field_specs
+    )
 
 class Follow(models.Model):
     username = models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
