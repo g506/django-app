@@ -4,37 +4,44 @@ from django.db.models import F
 from framework.api.API_Exception import APIException
 from graphql_jwt.decorators import login_required
 
-class FollowObj(graphene.ObjectType):
-    followers = graphene.Int(required=True)
-    followings = graphene.Int(required=True)
-    username = graphene.String(required=True)
 
-    def resolve_followers(self, info):
-        return self['followers']
+class isOnlineObj(graphene.ObjectType):
+    isOnline = graphene.Boolean()
 
-    def resolve_followings(self, info):
-        return self['followings']
+    def resolve_isOnline(self, info):
+        return self['isOnline']
 
-    def resolve_username(self, info):
-        return User.objects.values().get(id=self['username_id'])
 
-class RatingsObj(graphene.ObjectType):
-    username = graphene.String(required=True)
-    ratings = graphene.String(required=True)
+class coinsResponseObj(graphene.ObjectType):
+    id = graphene.String()
+    success = graphene.String()
+class updateCoin(graphene.Mutation):
 
-    def resolve_ratings(self, info):
-        return self['ratings']
+    class Arguments:
+        coins = graphene.Int()
 
-    def resolve_username(self, info):
-        return User.objects.values().get(id=self['username_id'])
+    Output = coinsResponseObj
+
+    def mutate(self, info, coins=None):
+        user = info.context.user
+        coin = user.coins
+        print(coin)
+
+        if coins is not None:
+            user.coins = coins + coin
+
+        user.save()
+        return coinsResponseObj(id=user.id, success = "True")
+
+
+class Mutation(graphene.ObjectType):
+    updateCoin = updateCoin.Field()
+
 
 class Query(graphene.ObjectType):
-    follow = graphene.List(FollowObj)
-    ratings = graphene.List(RatingsObj)
+    isOnline = graphene.List(isOnlineObj)
 
-    def resolve_follow(self, info):
-        return Follow.objects.values().all()
-    
-    def resolve_ratings(self, info):
-        return Ratings.objects.values().all()
 
+    def resolve_isOnline(self, info):
+        print(User.objects.values().all())
+        return User.objects.values().all()

@@ -36,8 +36,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]
-admin.site.site_header = 'Travlog'
-admin.site.site_url = 'http://travlog.vercel.app/'
+admin.site.site_header = 'i69'
+admin.site.site_url = ''
 admin.empty_value_display = '**Empty**'
 admin.site.index_title = 'Admin Dashboard'
-admin.site.site_title = 'Travlog'
+admin.site.site_title = 'i69'

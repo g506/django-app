@@ -11,7 +11,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -38,8 +39,10 @@ INSTALLED_APPS = [
     'easy_select2',
     'import_export',
     'ckeditor',
-    'travel_log_data',
-    'user'
+    'user',
+    'reports',
+    'social_django',
+    'purchase'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -68,6 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect'
             ],
         },
     },
@@ -138,4 +144,25 @@ GRAPHENE = {
 AUTHENTICATION_BACKENDS = [
     'graphql_jwt.backends.JSONWebTokenBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+
 ]
+
+
+#CHANNEL_LAYERS = {
+#      "default": {
+#      "BACKEND": "asgi_redis.RedisChannelLayer",
+#      "CONFIG": {
+#         "hosts": [(redis_host, 6379)],
+#    },
+#    "ROUTING": "routing.application",
+#   },
+#}
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_KEY = 'YOUR_APP_KEY'        # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'YOUR_APP_SECRET'  # App Secret

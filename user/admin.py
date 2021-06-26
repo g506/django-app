@@ -1,4 +1,8 @@
 from django.contrib import admin
+from django.contrib.admin.options import ModelAdmin
+
+# Register your models here.
+
 from .models import *
 
 from easy_select2 import select2_modelform
@@ -15,20 +19,11 @@ class UserAdmin(ImportExportModelAdmin, ExportActionMixin,admin.ModelAdmin):
 class UserSocialProfileAdmin(ImportExportModelAdmin, ExportActionMixin, admin.ModelAdmin):
     pass
 
-@admin.register(Ratings)
-class RatingsAdmin(ImportExportModelAdmin, ExportActionMixin, admin.ModelAdmin):
-    fields=[
-        ('username'),
-        ('ratings')
-    ]
-
-@admin.register(Follow)
-class FollowAdmin(ImportExportModelAdmin, ExportActionMixin, admin.ModelAdmin):
+@admin.register(Tags)
+class TagsAdmin(ImportExportModelAdmin, ExportActionMixin, admin.ModelAdmin):
     pass
 
-@admin.register(KarmaPoints)
-class KPointsAdmin(ImportExportModelAdmin, ExportActionMixin, admin.ModelAdmin):
-    fields=[
-        ('karma_points'),
-    ]
-    '''list_display = ('karma_points')'''
+
+@admin.register(Interests)
+class InterestsAdmin(ImportExportModelAdmin, ExportActionMixin, admin.ModelAdmin):
+    pass
